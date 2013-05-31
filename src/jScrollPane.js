@@ -213,7 +213,7 @@ $.fn.jScrollPaneCusel = function(settings)
 				var initDrag = function()
 				{
 					ceaseAnimation();
-					currentOffset = $drag.offset(false);
+					currentOffset = $drag.offset();
 					currentOffset.top -= dragPosition;
 					maxY = trackHeight - $drag[0].offsetHeight;
 					mouseWheelMultiplier = 2 * settings.wheelSpeed * maxY / contentHeight;
