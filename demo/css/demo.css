@@ -1,0 +1,99 @@
+body {
+  font: 13px Arial;
+}
+form {
+	margin: 1em 100px;
+}
+.sel80 {
+	width: 180px;
+}
+.lineForm,
+.lineForm3 {
+	margin-bottom: 20px;
+}
+.wid100 {
+	width: 100px !important;
+}
+#animals {
+	width: 90px;
+}
+.redSelect .cusel,
+.redSelect .cuselFrameRight,
+.redSelect .jScrollPaneDrag,
+.redSelect .jScrollArrowUp,
+.redSelect .jScrollArrowDown {
+	background-image: url(../images/selects-red.png) !important;
+}
+
+.twitter {
+	background: url(../images/twitter.gif) no-repeat !important;
+	padding-left: 25px !important;
+	color: #01dded !important
+}
+.vkontakte {
+	background: url(../images/vkontakte.gif) no-repeat !important;
+	padding-left: 25px !important;
+	color: #204e79 !important
+}
+.lj {
+	background: url(../images/lj.gif) no-repeat !important;
+	padding-left: 25px !important;
+	color: #003366 !important
+}
+.li {
+	background: url(../images/li.gif) no-repeat !important;
+	padding-left: 25px !important;
+	color: #000000 !important
+}
+.kv {
+	width: 4px;
+	height: 4px;
+	background: #00FF00;
+	position: absolute;
+	top: 2px;
+	right: 2px;
+	overflow: hidden;
+}
+
+/* стили для примера: выравнивание label, селекты на в одну строку */
+.lineForm,
+.lineForm3 {
+	float: left;
+	width: 100%;
+	zoom: 1;
+}
+* html .lineForm,
+* html .lineForm3 {
+	float: none;
+	width: auto;
+}
+label {
+  display: inline-block;
+  vertical-align: middle;
+	margin-right: 5px;
+}
+.cusel {
+	margin-right: 10px;
+	vertical-align: middle;
+}
+
+.cusel input {
+  margin-left: 300px;
+}
+
+.overflow-block {
+  overflow: auto;
+  height: 100px;
+  border: 1px dashed grey;
+  padding: .5em;
+}
+.overflow-block:before {
+  content: attr(title);
+  background: yellow;
+  border: 1px solid #ddd;
+  float: right;
+}
+
+
+
+}
