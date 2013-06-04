@@ -1,7 +1,12 @@
-cuSel -- кастомные селекты на jQuery
+cuSel &mdash; кастомные селекты на jQuery
 =====
 
 Возрождение проекта cuSel
+
+Скачать минифицированую версию https://raw.github.com/fetis/cusel/master/build/cusel.min.js
+
+Документация
+------------
 
 http://www.xiper.net/collect/html-and-css-tricks/verstka-form/nice-select-jquery.html
 
