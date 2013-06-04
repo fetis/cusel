@@ -1,0 +1,27 @@
+{
+  "name": "cusel",
+  "version": "3.0.0",
+  "description": "cuSel - stylized replacement for standard select",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/fetis/cusel.git"
+  },
+  "keywords": [
+    "jquery",
+    "cusel",
+    "select"
+  ],
+  "author": "Sergey Fetiskin",
+  "license": "BSD",
+  "readmeFilename": "README.md",
+  "gitHead": "3da2c5f70ed4d77b098f693a4aea690eaa563ce9",
+  "bugs": {
+    "url": "https://github.com/fetis/cusel/issues"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-uglify": "*",
+    "grunt-contrib-concat": "*",
+    "grunt-contrib-clean": "~0.4.1"
+  }
+}

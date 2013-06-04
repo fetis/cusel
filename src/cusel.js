@@ -1,5 +1,5 @@
-/***
- * cuSel -- replaces standard selects with more stylized version
+/*!
+ * cuSel -- stylized replacement for standard select
  * 
  * https://github.com/fetis/cusel
  *   
@@ -10,6 +10,7 @@
  * @requires jquery.mousewheel.js
  * 
  * Originally based on cuSel 2.5 by Evgeniy Ryzhkov, Alexey Choporov & Roman Omelkovitch
+ *  
  */   
 
 
