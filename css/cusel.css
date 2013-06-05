@@ -91,16 +91,12 @@
 	styles for scrollbar
 */
 .cusel-scroll-wrap { /* контейнер для блока с прокруткой */
-	display: block;
 	visibility: hidden;
-	left: 0;
-	top: 100%;
-	background: #fff; /* фон выпадающего списка */
 	min-width: 100%;
 	width: auto;
 }
 .cusel-scroll-pane {
-  background: #fff;
+	background: #fff; /* фон выпадающего списка */
 }
 .cusel-scroll-wrap .jScrollPaneContainer {
 	position: relative;
