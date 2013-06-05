@@ -15,7 +15,7 @@
 	cursor: pointer;
 	font-size: 14px;
 }
-.cuselFrameRight { /* левая часть селекта. обычно скругление и левая граница */
+.cuselFrameRight { /* левая чсть селект. обычно скругление и левая граница */
 	position: absolute;
 	z-index: 2;
 	top: 0;
@@ -63,10 +63,6 @@
 .cusel:focus,
 .cusel:focus .cuselFrameRight {
 	background-image: url(../images/select_bg_focus.png);
-}
-
-.cuselOpen {
-  outline: 1px solid #cc0000;
 }
 
 
