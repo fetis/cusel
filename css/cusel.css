@@ -93,7 +93,6 @@
 .cusel-scroll-wrap { /* контейнер для блока с прокруткой */
 	display: block;
 	visibility: hidden;
-	position: absolute;
 	left: 0;
 	top: 100%;
 	background: #fff; /* фон выпадающего списка */

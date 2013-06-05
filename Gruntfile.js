@@ -14,7 +14,8 @@ module.exports = function(grunt) {
     },
     uglify: {
       options: {
-        preserveComments: "some"
+        preserveComments: "some",
+        banner: '/*! build date  <%= grunt.template.today("yyyy-mm-dd") %> */\n'
       },
       build: {
         src: 'build/<%= pkg.name %>.js',

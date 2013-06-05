@@ -30,7 +30,7 @@ function cuSel(params) {
   var chEl = jQuery(this),
     chElWid = chEl.outerWidth(), // ширина селекта
     chElClass = chEl.prop("class"), // класс селекта
-    chElId = chEl.prop("id"), // id
+    chElId = this.id ? this.id : 'cuSel-' + num, // id
     chElName = chEl.prop("name"), // имя
     defaultVal = chEl.val(), // начальное значение
     activeOpt = chEl.find("option[value='"+defaultVal+"']").eq(0),
@@ -419,16 +419,21 @@ function cuselEvents() {
         .data("cusel-select", cuselMain[0]);
       
       if (jQuery.ui) {
-        // TODO: use more intelligent position method from $.ui here
+        // using more intelligent position method from $.ui here
+        cb.position({
+          my: "left top",
+          at: "left bottom",
+          of: cuselMain,
+        });
       } else {
         var pos = cuselMain.offset();
         cb.offset({
           left: pos.left,
           top: pos.top + cuselMain.outerHeight()
         });
-        cb.width(cuselMain.outerWidth());
       }
-      
+      cb.css("min-width", cuselMain.outerWidth() + "px");
+
       cuselMain.addClass("cuselOpen");
   
       var cuselArrows = cuselMain.hasClass("cuselScrollArrows");
