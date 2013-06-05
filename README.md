@@ -3,7 +3,13 @@ cuSel &mdash; кастомные селекты на jQuery
 
 Возрождение проекта cuSel
 
-Скачать минифицированую версию https://raw.github.com/fetis/cusel/master/build/cusel.min.js
+Скачать https://raw.github.com/fetis/cusel/master/build/cusel.min.js  
+В файл включены плагины jScrollPane и mousewheel.
+
+Особенности
+-----------
+- умное позиционирование (если подключена библиотека jQuery UI). Если выпадающему списку не хватает места вниз, 
+он будет открываться вверх
 
 Документация
 ------------
