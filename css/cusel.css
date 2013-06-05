@@ -15,7 +15,7 @@
 	cursor: pointer;
 	font-size: 14px;
 }
-.cuselFrameRight { /* левая чсть селект. обычно скругление и левая граница */
+.cuselFrameRight { /* левая часть селект. обычно скругление и левая граница */
 	position: absolute;
 	z-index: 2;
 	top: 0;
@@ -37,15 +37,15 @@
 	top: 0;
 	left: 0;
 }
-.cusel-scroll-wrap span { /* оформление оптиона */
+.cusel-scroll-pane > span { /* оформление оптиона */
 	display: block;
 	cursor: pointer;
 	white-space: nowrap;
 	padding: 2px 15px 2px 5px; /* паддинг справа - это отступ текста от ползунка */
 	zoom: 1;
 }
-.cusel-scroll-wrap span:hover,
-.cusel-scroll-wrap .cuselOptHover { /* реакция оптиона на наведение */
+.cusel-scroll-pane > span:hover,
+.cusel-scroll-pane .cuselOptHover { /* реакция оптиона на наведение */
 	background: Highlight;
 	color: #fff;
 }

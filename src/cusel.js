@@ -164,6 +164,9 @@ function cuselEvents() {
         clickedClass = clicked.prop("class");
         
       /* если кликнули по самому селекту (текст) */
+      
+      // TODO: клик по другому селекту вызывает закрытие, но не снимает класс cuselOpen
+      
       if( (clicked.hasClass("cuselText") || clicked.hasClass("cuselFrameRight")) && 
           !clicked.parent().hasClass("classDisCusel") ) {
         var cuselWrap = clicked.parent().find(".cusel-scroll-wrap").eq(0);
