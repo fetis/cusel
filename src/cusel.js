@@ -315,6 +315,7 @@ function cuselEvents() {
       {
         $(this).find(".cuselActive").removeClass("cuselActive");
         cuselHover.addClass("cuselActive");
+        cuselHover.trigger('click');
       }
       else var cuselHoverVal = $(this).find(".cuselActive").attr("val");
       
