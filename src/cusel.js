@@ -414,7 +414,10 @@ function cuselEvents() {
   function cuselShowList(cuselWrap) {
     var cuselMain = cuselWrap.parent(".cusel"),
       cb = cuselGetBox();
-  
+
+    // remove from all selects  
+    $(".cuselOpen").removeClass("cuselOpen");
+    
     /* если выпадающее меню скрыто - показываем */
     if(cb.is(":hidden")) {
       cb.empty();
@@ -451,10 +454,9 @@ function cuselEvents() {
       /* прокручиваем к текущему оптиону */
       cuselScrollToCurent(cb.find(".cusel-scroll-wrap"));
     } else {
+      // otherwise hide menu
       cb.hide()
         .removeData("cusel-select");
-      
-      cuselMain.removeClass("cuselOpen");
     }
   }
   
