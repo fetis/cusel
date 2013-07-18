@@ -164,9 +164,6 @@ function cuselEvents() {
         clickedClass = clicked.prop("class");
         
       /* если кликнули по самому селекту (текст) */
-      
-      // TODO: клик по другому селекту вызывает закрытие, но не снимает класс cuselOpen
-      
       if( (clicked.hasClass("cuselText") || clicked.hasClass("cuselFrameRight")) && 
           !clicked.parent().hasClass("classDisCusel") ) {
         var cuselWrap = clicked.parent().find(".cusel-scroll-wrap").eq(0);
@@ -329,20 +326,6 @@ function cuselEvents() {
         .end().find(".cuselOptHover").eq(0).removeClass("cuselOptHover");
       $(this).find("input").eq(0).change();
     }
-    
-    /*
-      если нажали пробел и это опера - раскрывем список
-    */
-    if(key==32 && $.browser.opera)
-    {
-      var cuselWrap = $(this).find(".cusel-scroll-wrap").eq(0);
-      
-      /* ракрываем список */
-      cuselShowList(cuselWrap);
-    }
-      
-    if($.browser.opera) return false; /* специально для опера, чтоб при нажатиии на клавиши не прокручивалось окно браузера */
-  
   });
   
   /*
