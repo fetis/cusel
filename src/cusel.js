@@ -187,9 +187,13 @@ function cuselEvents() {
       
       /* если выбрали позицию в списке */
       else if(clicked.is(".cusel-scroll-wrap span") && !clicked.hasClass("cuselActive")) {
-        var clickedVal = clicked.attr("val") || clicked.text(),
+        var clickedVal = clicked.attr("val"),
           select = $(cb.data("cusel-select")),
           i = clicked.index();
+        
+        // preserve empty value here, otherwise return text itself according standard behavior
+        if (typeof clickedVal == "undefined")
+          clickedVal = clicked.text()
 
         if (!select.length)
           return;
@@ -225,7 +229,7 @@ function cuselEvents() {
   $(".cusel").off("keydown.cusel"); /* чтобы не было двойного срабатывания события */
   $(".cusel").on("keydown.cusel", function(event) {
     /*
-      если селект задизайблин, с не го работает только таб
+      если селект задизайблин, с него работает только таб
     */
     var key, keyChar;
       
