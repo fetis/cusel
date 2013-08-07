@@ -25,19 +25,22 @@
  *  {String} refreshEl Comma-separated list of refreshed selects. Useby by cuSelRefresh only 
  */ 
 function cuSel(params) {
-	var date = +new Date();
-	console.log(date);
 	$(params.changedEl).each(function(num) {
-	var chEl = $(this),		
-    chElWid = chEl.outerWidth(), // ширина селекта
+	 var chEl = $(this);
+   
+   // check on initialized element
+   if (!chEl.is("select"))
+     return;
+    
+   var chElWid = chEl.outerWidth(), // ширина селекта
     chElClass = chEl.prop("class"), // класс селекта
-    chElId = this.id ? this.id : 'cuSel-' + date + '-'+num, // id
+    chElId = this.id ? this.id : 'cuSel-' + Date.now() + '-'+num, // id
     chElName = chEl.prop("name"), // имя
     defaultVal = chEl.val(), // начальное значение
     activeOpt = chEl.find("option[value='"+defaultVal+"']").eq(0),    	
-	defaultAddTags = activeOpt.attr("addTags") ? activeOpt.attr("addTags") : '', // добавляем тег для стандартного значения
-	defaultSetClass = activeOpt.data('setclass') ? activeOpt.data('setclass') : '', // добавляем класс от активного опциона по дефаулта, для кастомного оформления
-	defaultText = activeOpt.text(), // начальный текст
+  	defaultAddTags = activeOpt.attr("addTags") ? activeOpt.attr("addTags") : '', // добавляем тег для стандартного значения
+  	defaultSetClass = activeOpt.data('setclass') ? activeOpt.data('setclass') : '', // добавляем класс от активного опциона по дефаулта, для кастомного оформления
+  	defaultText = activeOpt.text(), // начальный текст
     disabledSel = chEl.prop("disabled"), // заблокирован ли селект
     scrollArrows = params.scrollArrows,
     chElOnChange = chEl.prop("onchange"),
@@ -312,6 +315,7 @@ function cuselEvents() {
 		case 13: { // если нажали enter
 			if (open) 
 				cb.find(".cuselOptHover").eq(0).trigger('click').removeClass("cuselOptHover");
+      return false;
 			break;
 		}
 	}
