@@ -25,138 +25,160 @@
  *  {String} refreshEl Comma-separated list of refreshed selects. Useby by cuSelRefresh only 
  */ 
 function cuSel(params) {
+  var initTimeout = 250,  // timeout per init attempt
+    initMaxAttempts = 20; // max attempts count
+    
 	$(params.changedEl).each(function(num) {
-	 var chEl = $(this);
-   
-   // check on initialized element
-   if (!chEl.is("select"))
+    var chEl = $(this);
+    
+    // check on initialized element
+    if (!chEl.is("select") || chEl.prop("multiple"))
      return;
-    
-   var chElWid = chEl.outerWidth(), // ширина селекта
-    chElClass = chEl.prop("class"), // класс селекта
-    chElId = this.id ? this.id : 'cuSel-' + Date.now() + '-'+num, // id
-    chElName = chEl.prop("name"), // имя
-    defaultVal = chEl.val(), // начальное значение
-    activeOpt = chEl.find("option[value='"+defaultVal+"']").eq(0),    	
-  	defaultAddTags = activeOpt.attr("addTags") ? activeOpt.attr("addTags") : '', // добавляем тег для стандартного значения
-  	defaultSetClass = activeOpt.data('setclass') ? activeOpt.data('setclass') : '', // добавляем класс от активного опциона по дефаулта, для кастомного оформления
-  	defaultText = activeOpt.text(), // начальный текст
-    disabledSel = chEl.prop("disabled"), // заблокирован ли селект
-    scrollArrows = params.scrollArrows,
-    chElOnChange = chEl.prop("onchange"),
-    chElTab = chEl.prop("tabindex"),
-    chElMultiple = chEl.prop("multiple");
-    
-    if(!chElId || chElMultiple) return false; // не стилизируем селект если не задан id
-    
-    if(!disabledSel)
-    {
-      classDisCuselText = "", // для отслеживания клика по задизайбленному селекту
-      classDisCusel=""; // для оформления задизейбленного селекта
-    }
-    else
-    {
-      classDisCuselText = "classDisCuselLabel";
-      classDisCusel="classDisCusel";
-    }
-    
-    if(scrollArrows)
-    {
-      classDisCusel+=" cuselScrollArrows";
-    }
      
-	chEl.find('option').addClass('cuselItem'); // добавляем каждому опциону класс item, чтобы далее обращаться к этому классу, а не к span
-    activeOpt.addClass("cuselActive");  // активному оптиону сразу добавляем класс для подсветки
+    _init(chEl, num, 1)
+  });
   
-  var optionStr = chEl.html(), // список оптионов
-
+  /***
+   * Init select function
+   * @param {jQuery} chEl Initialized select element
+   * @param {Integer} num Index in array of elements, used for ID generation   
+   * @param {Integer} attempt Attempt counts      
+   */
+   function _init(chEl, num, attempt) {
+     var chElWid = chEl.outerWidth(); // ширина селекта
+     
+     if (chElWid <= 0) {
+      if (attempt <= initMaxAttempts) {
+        // delay init, until width  will be calculated
+        window.setTimeout(function(){ _init(chEl, num, attempt+1); }, initTimeout);
+        return;
+      } else {
+        // we don't have more attempts, set default width and continue
+        chElWid = 200;
+      }
+     }
+      
+     var chElClass = chEl.prop("class"), // класс селекта
+      chElId = chEl[0].id ? chEl[0].id : 'cuSel-' + Date.now() + '-'+num, // id
+      chElName = chEl.prop("name"), // имя
+      defaultVal = chEl.val(), // начальное значение
+      activeOpt = chEl.find("option[value='"+defaultVal+"']").eq(0),    	
+    	defaultAddTags = activeOpt.attr("addTags") ? activeOpt.attr("addTags") : '', // добавляем тег для стандартного значения
+    	defaultSetClass = activeOpt.data('setclass') ? activeOpt.data('setclass') : '', // добавляем класс от активного опциона по дефаулта, для кастомного оформления
+    	defaultText = activeOpt.text(), // начальный текст
+      disabledSel = chEl.prop("disabled"), // заблокирован ли селект
+      scrollArrows = params.scrollArrows,
+      chElOnChange = chEl.prop("onchange"),
+      chElTab = chEl.prop("tabindex");
+      
+      if(!disabledSel)
+      {
+        classDisCuselText = "", // для отслеживания клика по задизайбленному селекту
+        classDisCusel=""; // для оформления задизейбленного селекта
+      }
+      else
+      {
+        classDisCuselText = "classDisCuselLabel";
+        classDisCusel="classDisCusel";
+      }
+      
+      if(scrollArrows)
+      {
+        classDisCusel+=" cuselScrollArrows";
+      }
+       
+  	chEl.find('option').addClass('cuselItem'); // добавляем каждому опциону класс item, чтобы далее обращаться к этому классу, а не к span
+      activeOpt.addClass("cuselActive");  // активному оптиону сразу добавляем класс для подсветки
     
-  /* 
-    делаем замену тегов option на span, полностью сохраняя начальную конструкцию
-  */
+    var optionStr = chEl.html(), // список оптионов
   
-  itemStr = optionStr.replace(/option/ig,"span").replace(/value=/ig,"val="); // value меняем на val, т.к. jquery отказывается воспринимать value у span
-  
-  /* 
-    для IE проставляем кавычки для значений, т.к. html() возращает код без кавычек
-    что произошла корректная обработка value должно быть последний атрибутом option,
-    например <option class="country" id="ukraine" value="/ukrane/">Украина</option>
-  */
-  if($.browser.msie && parseInt($.browser.version) < 9)
-  {
-    var pattern = /(val=)(.*?)(>)/g;
-    itemStr = itemStr.replace(pattern, "$1'$2'$3");
-  }
-  
-  /* каркас стильного селекта */
-  var cuselFrame = '<div class="cusel '+chElClass+' '+classDisCusel+'"'+
-          ' id=cuselFrame-'+chElId+
-          ' style="width:'+chElWid+'px"'+
-          ' tabindex="'+chElTab+'"'+
-          '>'+
-          '<div class="cuselFrameRight"></div>'+
-          '<div data-class="'+defaultSetClass+'" class="cuselText '+defaultSetClass+'">'+defaultAddTags + '<label>'+activeOpt.text()+'</label></div>'+
-          '<div class="cusel-scroll-wrap"><div class="cusel-scroll-pane" id="cusel-scroll-'+chElId+'">'+ 
-          itemStr+
-          '</div></div>'+
-          '<input type="hidden" id="'+chElId+'" name="'+chElName+'" value="'+defaultVal+'" />'+
-          '</div>';
-          
-          
-  /* удаляем обычный селект, на его место вставляем стильный */
-  chEl.replaceWith(cuselFrame);
-  
-  /* если был поцеплен onchange - цепляем его полю */
-  if(chElOnChange) $("#"+chElId).bind('change',chElOnChange);
-  
-  
-  var newSel = $("#cuselFrame-"+chElId),
-    arrItems = newSel.find("span.cuselItem"),
-    defaultHeight;
-	
-	/* оборачиваем текст оптионов в label, чтобы отделить от addTags */
-	arrItems.wrapInner('<label/>');
-	
-  /*
-    устаналиваем высоту выпадающих списков основываясь на числе видимых позиций и высоты одной позиции
-    при чем только тем, у которых число оптионов больше числа заданного числа видимых
-  */  
+      
+    /* 
+      делаем замену тегов option на span, полностью сохраняя начальную конструкцию.
+      value меняем на val, т.к. jquery отказывается воспринимать value у span
+    */
+    itemStr = optionStr.replace(/option/ig,"span").replace(/value=/ig,"val=");
     
-    if(!arrItems.eq(0).find('label').text())
+    /* 
+      для IE проставляем кавычки для значений, т.к. html() возращает код без кавычек
+      что произошла корректная обработка value должно быть последний атрибутом option,
+      например <option class="country" id="ukraine" value="/ukrane/">Украина</option>
+    */
+    if($.browser.msie && parseInt($.browser.version) < 9)
     {
-      defaultHeight = arrItems.eq(1).innerHeight();
-      arrItems.eq(0).css("height", arrItems.eq(1).height());
-    } 
-    else
-    {
-      defaultHeight = arrItems.eq(0).innerHeight();
+      var pattern = /(val=)(.*?)(>)/g;
+      itemStr = itemStr.replace(pattern, "$1'$2'$3");
     }
     
-  
-  if(arrItems.length>params.visRows)
-  {
-    newSel.find(".cusel-scroll-wrap").eq(0)
-      .css({height: defaultHeight*params.visRows+"px", display : "none", visibility: "visible" })
-      .children(".cusel-scroll-pane").css("height",defaultHeight*params.visRows+"px");
-  }
-  else
-  {
-    newSel.find(".cusel-scroll-wrap").eq(0)
-      .css({display : "none", visibility: "visible" });
-  }
-  
-  /* вставляем в оптионы дополнительные теги */
-  
-  var arrAddTags = $("#cusel-scroll-"+chElId).find("span[addTags]"),
-    lenAddTags = arrAddTags.length;
+    /* каркас стильного селекта */
+    var cuselFrame = '<div class="cusel '+chElClass+' '+classDisCusel+'"'+
+            ' id=cuselFrame-'+chElId+
+            ' style="width:'+chElWid+'px"'+
+            ' tabindex="'+chElTab+'"'+
+            '>'+
+            '<div class="cuselFrameRight"></div>'+
+            '<div data-class="'+defaultSetClass+'" class="cuselText '+defaultSetClass+'">'+defaultAddTags + '<label>'+activeOpt.text()+'</label></div>'+
+            '<div class="cusel-scroll-wrap"><div class="cusel-scroll-pane" id="cusel-scroll-'+chElId+'">'+ 
+            itemStr+
+            '</div></div>'+
+            '<input type="hidden" id="'+chElId+'" name="'+chElName+'" value="'+defaultVal+'" />'+
+            '</div>';
+            
+            
+    /* удаляем обычный селект, на его место вставляем стильный */
+    chEl.replaceWith(cuselFrame);
     
-    for(i=0;i<lenAddTags;i++) arrAddTags.eq(i)					
-                    .prepend(arrAddTags.eq(i).attr("addTags"))
-                    .removeAttr("addTags");
-                    
-  cuselEvents();
-  
-  });
+    /* если был поцеплен onchange - цепляем его полю */
+    if(chElOnChange) $("#"+chElId).bind('change',chElOnChange);
+    
+    
+    var newSel = $("#cuselFrame-"+chElId),
+      arrItems = newSel.find("span.cuselItem"),
+      defaultHeight;
+  	
+  	/* оборачиваем текст оптионов в label, чтобы отделить от addTags */
+  	arrItems.wrapInner('<label/>');
+  	
+    /*
+      устаналиваем высоту выпадающих списков основываясь на числе видимых позиций и высоты одной позиции
+      при чем только тем, у которых число оптионов больше числа заданного числа видимых
+    */  
+      
+      if(!arrItems.eq(0).find('label').text())
+      {
+        defaultHeight = arrItems.eq(1).innerHeight();
+        arrItems.eq(0).css("height", arrItems.eq(1).height());
+      } 
+      else
+      {
+        defaultHeight = arrItems.eq(0).innerHeight();
+      }
+      
+    
+    if(arrItems.length>params.visRows)
+    {
+      newSel.find(".cusel-scroll-wrap").eq(0)
+        .css({height: defaultHeight*params.visRows+"px", display : "none", visibility: "visible" })
+        .children(".cusel-scroll-pane").css("height",defaultHeight*params.visRows+"px");
+    }
+    else
+    {
+      newSel.find(".cusel-scroll-wrap").eq(0)
+        .css({display : "none", visibility: "visible" });
+    }
+    
+    /* вставляем в оптионы дополнительные теги */
+    
+    var arrAddTags = $("#cusel-scroll-"+chElId).find("span[addTags]"),
+      lenAddTags = arrAddTags.length;
+      
+      for(i=0;i<lenAddTags;i++) arrAddTags.eq(i)					
+                      .prepend(arrAddTags.eq(i).attr("addTags"))
+                      .removeAttr("addTags");
+                      
+    cuselEvents();
+   
+   }     
 
 /* ---------------------------------------
   привязка событий селектам
@@ -529,4 +551,11 @@ function cuSelRefresh(params) {
     }
   }
 }
+
+/***
+ * Set select value
+ */
+function cuselSetValue(select, value) {
+  // TODO cuselSetValue  
+}  
 
