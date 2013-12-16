@@ -554,8 +554,17 @@ function cuSelRefresh(params) {
 
 /***
  * Set select value
+ * @param {Selector} select
+ * @param value New value  
  */
 function cuselSetValue(select, value) {
-  // TODO cuselSetValue  
+  var $elem = $(select).closest(".cusel"),
+    $item = $elem.find(".cuselItem[val="+value+"]").first();
+  
+  if (!$item.length)
+    return false;
+
+  // invoke value change  
+  $item.click();    
 }  
 
