@@ -48,6 +48,37 @@ $.fn.jScrollPaneCusel = function(settings)
 						.parent().css("width",paneWidth+"px");
 				
 				}
+
+				// ... (the rest of your code)
+
+				// Detect touch events
+				var touchStartY = 0;
+				var isTouching = false;
+
+				$this.on('touchstart', function (e) {
+					touchStartY = e.originalEvent.touches[0].pageY;
+					isTouching = true;
+					e.stopPropagation();
+				});
+
+				$this.on('touchmove', function (e) {
+					if (isTouching) {
+						var touchY = e.originalEvent.touches[0].pageY;
+						var deltaY = touchY - touchStartY;
+
+						// Adjust deltaY as needed for scrolling direction
+						positionDrag(dragPosition - deltaY);
+						touchStartY = touchY;
+						e.preventDefault();
+					}
+				});
+
+				$this.on('touchend', function () {
+					isTouching = false;
+				});
+
+				// ... (the rest of your code)
+
 				// deal with text size changes (if the jquery.em plugin is included)
 				// and re-initialise the scrollPane so the track maintains the
 				// correct size
